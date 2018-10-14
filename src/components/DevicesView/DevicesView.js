@@ -1,12 +1,19 @@
 import React, {Component} from 'react';
 import {StyleSheet, TextInput, View, Button, Text} from 'react-native';
 
-const devicesView = props => {
-  return (
-    <View style={styles.container} >
-      <Text>Os playdals aparecem aqui</Text>
-    </View>
-  )
+class DevicesView extends Component {
+  state = {
+    state: "disconnected"
+  }
+
+  render() {
+    return (
+      <View style={styles.container} >
+        <Text>Os playdals aparecem aqui</Text>
+        <Text>Pedal: {this.state.state}</Text>
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -25,4 +32,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default devicesView;
+export default DevicesView;
