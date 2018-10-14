@@ -1,29 +1,16 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, TextInput, View, Button, Text} from 'react-native';
+import {StyleSheet, TextInput, View, Button, Text} from 'react-native';
+
+import SpotifyView from './src/components/SpotifyView/SpotifyView';
+import DevicesView from './src/components/DevicesView/DevicesView';
 
 type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.buttonContainer}>
-          <Text>Spotify </Text>
-          <Text>não conectado </Text>
-          <Button title="🔄" />
-        </View>
-        <TextInput
-          placeholder="Cole aqui a playlist"
-          multiline = {true}
-        />
-        <View style={styles.buttonContainer}>
-          <Button style={{margin: "auto"}}
-            title="Limpar"
-            color="grey"
-          />
-          <Button style={{margin: "auto"}}
-            title="Play"
-          />
-        </View>
+        <SpotifyView />
+        <DevicesView />
       </View>
     );
   }
@@ -32,12 +19,5 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: "45%",
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
   }
 });
