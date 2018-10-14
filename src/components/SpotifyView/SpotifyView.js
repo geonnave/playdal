@@ -7,7 +7,7 @@ const spotifyView = props => {
       <View style={styles.horizontalContainer}>
         <Text>Spotify </Text>
         <Text>não conectado </Text>
-        <Button title="🔄" />
+        <Button title="🔄" onPress={() => {}} />
       </View>
       <TextInput
         placeholder="Cole aqui a playlist"
@@ -17,9 +17,11 @@ const spotifyView = props => {
         <Button style={styles.button}
           title="Limpar"
           color="grey"
+          onPress={() => {}}
         />
         <Button style={styles.button}
           title="Play"
+          onPress={() => {}}
         />
       </View>
     </View>
