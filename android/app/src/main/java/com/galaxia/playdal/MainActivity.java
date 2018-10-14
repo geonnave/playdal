@@ -1,4 +1,4 @@
-package com.playdal;
+package com.galaxia.playdal;
 
 import com.facebook.react.ReactActivity;
 
