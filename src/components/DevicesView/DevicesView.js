@@ -21,6 +21,7 @@ class DevicesView extends Component {
 
   changePressStateHandler = (state) => {
     this.setState({...this.state, pressState: state})
+    this.props.togglePlayback(state == "pressed")
   }
 
   deviceConnectedHandler = (device) => {

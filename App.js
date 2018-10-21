@@ -6,11 +6,15 @@ import DevicesView from './src/components/DevicesView/DevicesView';
 
 type Props = {};
 export default class App extends Component<Props> {
+  togglePlayback = (shouldPlay) => {
+    this.spotifyView.togglePlayback(shouldPlay)
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <SpotifyView />
-        <DevicesView />
+        <SpotifyView onRef={ref => (this.spotifyView = ref)}/>
+        <DevicesView togglePlayback={this.togglePlayback}/>
       </View>
     );
   }
