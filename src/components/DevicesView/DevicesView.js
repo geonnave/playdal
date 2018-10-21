@@ -108,7 +108,7 @@ class DevicesView extends Component {
         this.changePressStateHandler("error")
         return
       }
-      if (characteristic.value == "AA==") {
+      if (characteristic.value == "AA==") { // AA== is 0 in base 64
         this.changePressStateHandler("released")
       } else {
         this.changePressStateHandler("pressed")
