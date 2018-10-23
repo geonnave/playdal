@@ -8,6 +8,7 @@ import {
   Linking
 } from "react-native"
 import Spotify from "rn-spotify-sdk"
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 class SpotifyView extends Component {
   state = {
@@ -134,8 +135,11 @@ class SpotifyView extends Component {
       <View style={styles.container}>
         <View style={styles.horizontalContainer}>
           <Text>Spotify </Text>
-          <Text>{this.connectedAndLoggedInText()}</Text>
-          <Button title="🔄" onPress={() => {}} />
+          <Text>{this.connectedAndLoggedInText()} </Text>
+          <Icon.Button
+            name="redo"
+            onPress={() => {}}>
+          </Icon.Button>
         </View>
         <TextInput
           value={this.state.inputPlaylistURL}
@@ -173,7 +177,8 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "45%",
     alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#F5FCFF",
+    marginTop: 20
   },
   horizontalContainer: {
     flexDirection: "row",
