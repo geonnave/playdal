@@ -8,6 +8,7 @@ import {
   ToastAndroid,
   PermissionsAndroid
 } from "react-native"
+import Icon from "react-native-vector-icons/FontAwesome5"
 
 import { BleManager } from "react-native-ble-plx"
 
@@ -18,6 +19,7 @@ class DevicesView extends Component {
     this.state = {
       device: undefined,
       deviceState: "disconnected",
+      bleState: "disconnected",
       pressState: undefined,
       permissionIsGranted: PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
@@ -26,6 +28,10 @@ class DevicesView extends Component {
   }
 
   changeBleStateHandler = state => {
+    this.setState({ ...this.state, bleState: state })
+  }
+
+  changeDeviceStateHandler = state => {
     this.setState({ ...this.state, deviceState: state })
   }
 
@@ -90,23 +96,23 @@ class DevicesView extends Component {
             if (device.name == "ESP32 GALAXIA Playdal") {
               ToastAndroid.show("Encontrou: " + device.name, ToastAndroid.SHORT)
               this.manager.stopDeviceScan()
-              this.changeBleStateHandler("found")
+              this.changeBleStateHandler("idle")
 
               device
                 .connect()
                 .then(device => {
-                  this.changeBleStateHandler("connected")
+                  this.changeDeviceStateHandler("connected")
                   // ToastAndroid.show("Descobrindo serviços e características", ToastAndroid.SHORT)
                   return device.discoverAllServicesAndCharacteristics()
                 })
                 .then(device => {
-                  this.changeBleStateHandler("connected..")
+                  this.changeDeviceStateHandler("connected..")
                   // ToastAndroid.show("Ajustando as notificações", ToastAndroid.SHORT)
                   return this.setupNotifications(device)
                 })
                 .then(
                   () => {
-                    this.changeBleStateHandler("connected!")
+                    this.changeDeviceStateHandler("connected!")
                     this.deviceConnectedHandler(device)
                     // ToastAndroid.show("Listening...", ToastAndroid.SHORT)
                   },
@@ -154,11 +160,23 @@ class DevicesView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Os playdals aparecem aqui</Text>
-        <Text>
-          Pedal: {this.state.deviceState}, {this.state.pressState}
-        </Text>
-        <Button title="🔄" onPress={this.connectBle} />
+        <View style={styles.horizontalContainer}>
+          <Text>
+            Bluetooth: {this.state.bleState}, {this.state.pressState}
+          </Text>
+          <Icon.Button
+            style={styles.iconButton}
+            name="redo"
+            onPress={() => {}}
+          />
+        </View>
+        <View style={{ height: 20 }} />
+        <View>
+          <Text>
+            Pedal: {this.state.deviceState}
+            {this.state.pressState ? (", " + this.state.pressState) : ""}
+          </Text>
+        </View>
       </View>
     )
   }
@@ -167,7 +185,6 @@ class DevicesView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: "45%",
     alignItems: "center",
     backgroundColor: "#F5FCFF"
   },
@@ -177,6 +194,9 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: "auto"
+  },
+  iconButton: {
+    paddingRight: 0
   }
 })
 

@@ -1,14 +1,7 @@
 import React, { Component } from "react"
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Button,
-  Text,
-  Linking
-} from "react-native"
+import { StyleSheet, TextInput, View, Button, Text } from "react-native"
 import Spotify from "rn-spotify-sdk"
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import Icon from "react-native-vector-icons/FontAwesome5"
 
 class SpotifyView extends Component {
   state = {
@@ -137,11 +130,13 @@ class SpotifyView extends Component {
           <Text>Spotify </Text>
           <Text>{this.connectedAndLoggedInText()} </Text>
           <Icon.Button
+            style={styles.iconButton}
             name="redo"
-            onPress={() => {}}>
-          </Icon.Button>
+            onPress={() => {}}
+          />
         </View>
         <TextInput
+          style={styles.playlistInput}
           value={this.state.inputPlaylistURL}
           placeholder="Cole aqui a playlist"
           multiline={true}
@@ -154,6 +149,7 @@ class SpotifyView extends Component {
             color="grey"
             onPress={this.clearPlaylist}
           />
+          <View style={{ width: 10 }} />
           <Button
             style={styles.button}
             title="Play"
@@ -185,7 +181,14 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   button: {
-    margin: "auto"
+    marginLeft: 10,
+    marginRight: 10
+  },
+  iconButton: {
+    paddingRight: 0
+  },
+  playlistInput: {
+    margin: 10
   }
 })
 
