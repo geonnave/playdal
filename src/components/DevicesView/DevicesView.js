@@ -45,15 +45,6 @@ class DevicesView extends Component {
   }
 
   checkPermission = async () => {
-    if (
-      PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-      )
-    ) {
-      console.log("Location already granted")
-      return
-    }
-
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,

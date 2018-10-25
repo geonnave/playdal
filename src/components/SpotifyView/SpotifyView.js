@@ -11,12 +11,11 @@ import {
 } from "react-native"
 import Spotify from "rn-spotify-sdk"
 import Icon from "react-native-vector-icons/FontAwesome5"
-import { SliderVolumeController } from 'react-native-volume-controller'
+import { SliderVolumeController } from "react-native-volume-controller"
 
 class SpotifyView extends Component {
   state = {
-    inputPlaylistURL:
-      "https://open.spotify.com/user/geonnave/playlist/5TVPDoTAhcY1005jhBvZPz?si=2zS6BdfBQxmpGN9dnAeG_w",
+    inputPlaylistURL: "",
     activePlaylistURL: "",
     spotifyInitialized: undefined,
     highVolume: 0.85,
