@@ -147,6 +147,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-volume-controller')
     compile project(':react-native-vector-icons')
     compile project(':react-native-events')
     compile project(':rn-spotify-sdk')

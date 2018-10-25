@@ -5,17 +5,22 @@ import {
   View,
   Button,
   Text,
-  ToastAndroid
+  ToastAndroid,
+  NativeModules,
+  Slider
 } from "react-native"
 import Spotify from "rn-spotify-sdk"
 import Icon from "react-native-vector-icons/FontAwesome5"
+import { SliderVolumeController } from 'react-native-volume-controller'
 
 class SpotifyView extends Component {
   state = {
     inputPlaylistURL:
       "https://open.spotify.com/user/geonnave/playlist/5TVPDoTAhcY1005jhBvZPz?si=2zS6BdfBQxmpGN9dnAeG_w",
     activePlaylistURL: "",
-    spotifyInitialized: undefined
+    spotifyInitialized: undefined,
+    highVolume: 0.85,
+    lowVolume: 0.35
   }
 
   URLtoURI = playlistURL => {
@@ -64,11 +69,14 @@ class SpotifyView extends Component {
   }
 
   pedalPressed = () => {
-    ToastAndroid.show("Volume will go up!", ToastAndroid.SHORT)
+    NativeModules.ReactNativeVolumeController.change(this.state.highVolume)
+    if (!Spotify.getPlaybackState().playing) {
+      this.playPlaylist()
+    }
   }
 
   pedalReleased = () => {
-    ToastAndroid.show("Volume will go down!", ToastAndroid.SHORT)
+    NativeModules.ReactNativeVolumeController.change(this.state.lowVolume)
   }
 
   clearPlaylist = () => {
@@ -188,7 +196,7 @@ class SpotifyView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: "45%",
+    height: "65%",
     alignItems: "center",
     backgroundColor: "#F5FCFF",
     marginTop: 20
