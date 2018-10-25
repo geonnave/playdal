@@ -6,15 +6,19 @@ import DevicesView from "./src/components/DevicesView/DevicesView"
 
 type Props = {}
 export default class App extends Component<Props> {
-  togglePlayback = shouldPlay => {
-    this.spotifyView.togglePlayback(shouldPlay)
+  changePressedState = pressState => {
+    if (pressState == "pressed") {
+      this.spotifyView.pedalPressed()
+    } else {
+      this.spotifyView.pedalReleased()
+    }
   }
 
   render() {
     return (
       <View style={styles.container}>
         <SpotifyView onRef={ref => (this.spotifyView = ref)} />
-        <DevicesView togglePlayback={this.togglePlayback} />
+        <DevicesView changePressedState={this.changePressedState} />
       </View>
     )
   }

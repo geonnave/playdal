@@ -1,5 +1,12 @@
 import React, { Component } from "react"
-import { StyleSheet, TextInput, View, Button, Text } from "react-native"
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  Button,
+  Text,
+  ToastAndroid
+} from "react-native"
 import Spotify from "rn-spotify-sdk"
 import Icon from "react-native-vector-icons/FontAwesome5"
 
@@ -56,6 +63,14 @@ class SpotifyView extends Component {
     Spotify.setPlaying(shouldPlay)
   }
 
+  pedalPressed = () => {
+    ToastAndroid.show("Volume will go up!", ToastAndroid.SHORT)
+  }
+
+  pedalReleased = () => {
+    ToastAndroid.show("Volume will go down!", ToastAndroid.SHORT)
+  }
+
   clearPlaylist = () => {
     this.setState({ ...this.state, inputPlaylistURL: "" })
   }
@@ -91,8 +106,8 @@ class SpotifyView extends Component {
         }
       })
       .catch(error => {
-        console.log(`initialize error = ${loggedIn}`)
-        console.log(error.message)
+        this.setState({ ...this.state, spotifyInitialized: false })
+        console.log(`initialize error = ${error.message}`)
       })
   }
 
@@ -105,6 +120,7 @@ class SpotifyView extends Component {
         }
       })
       .catch(error => {
+        this.setState({ ...this.state, spotifyLoggedIn: false })
         console.log(`spotifyLogin error = ${error.message}`)
       })
   }
@@ -132,7 +148,7 @@ class SpotifyView extends Component {
           <Icon.Button
             style={styles.iconButton}
             name="redo"
-            onPress={() => {}}
+            onPress={this.spotifyLogin}
           />
         </View>
         <TextInput
@@ -159,6 +175,7 @@ class SpotifyView extends Component {
       </View>
     )
   }
+
   connectedAndLoggedInText = () => {
     if (this.state.spotifyInitialized && this.state.spotifyLoggedIn) {
       return "conectado"

@@ -20,7 +20,7 @@ class DevicesView extends Component {
       device: undefined,
       deviceState: "disconnected",
       bleState: "disconnected",
-      pressState: undefined,
+      pressedState: undefined,
       permissionIsGranted: PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       )
@@ -35,9 +35,9 @@ class DevicesView extends Component {
     this.setState({ ...this.state, deviceState: state })
   }
 
-  changePressStateHandler = state => {
-    this.setState({ ...this.state, pressState: state })
-    this.props.togglePlayback(state == "pressed")
+  changePressedStateHandler = state => {
+    this.setState({ ...this.state, pressedState: state })
+    this.props.changePressedState(state)
   }
 
   deviceConnectedHandler = device => {
@@ -74,6 +74,15 @@ class DevicesView extends Component {
   }
 
   connectBle = () => {
+    if (this.state.device) {
+      this.state.device.cancelConnection()
+      this.changeDeviceStateHandler("disconnected")
+      this.setState({
+        ...this.state,
+        device: undefined,
+        pressedState: undefined
+      })
+    }
     this.manager.onStateChange(newState => {
       if (newState != "PoweredOn") return
       // ToastAndroid.show("Started scanning...", ToastAndroid.SHORT)
@@ -101,18 +110,18 @@ class DevicesView extends Component {
               device
                 .connect()
                 .then(device => {
-                  this.changeDeviceStateHandler("connected")
+                  // this.changeDeviceStateHandler("connected")
                   // ToastAndroid.show("Descobrindo serviços e características", ToastAndroid.SHORT)
                   return device.discoverAllServicesAndCharacteristics()
                 })
                 .then(device => {
-                  this.changeDeviceStateHandler("connected..")
+                  // this.changeDeviceStateHandler("connected")
                   // ToastAndroid.show("Ajustando as notificações", ToastAndroid.SHORT)
                   return this.setupNotifications(device)
                 })
                 .then(
                   () => {
-                    this.changeDeviceStateHandler("connected!")
+                    this.changeDeviceStateHandler("connected")
                     this.deviceConnectedHandler(device)
                     // ToastAndroid.show("Listening...", ToastAndroid.SHORT)
                   },
@@ -130,21 +139,21 @@ class DevicesView extends Component {
   setupNotifications = device => {
     const service = "cb0bd28b-76f8-4dc7-df90-05e68415f1eb"
     const charact = "8ec86328-c9ab-470c-98ec-82ff6f4148c5"
-    this.changePressStateHandler("released")
+    this.changePressedStateHandler(undefined)
 
     device.monitorCharacteristicForService(
       service,
       charact,
       (error, characteristic) => {
         if (error) {
-          this.changePressStateHandler("error")
+          this.changePressedStateHandler("error")
           return
         }
         if (characteristic.value == "AA==") {
           // AA== is 0 in base 64
-          this.changePressStateHandler("released")
+          this.changePressedStateHandler("released")
         } else {
-          this.changePressStateHandler("pressed")
+          this.changePressedStateHandler("pressed")
         }
       }
     )
@@ -161,24 +170,57 @@ class DevicesView extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.horizontalContainer}>
-          <Text>
-            Bluetooth: {this.state.bleState}, {this.state.pressState}
-          </Text>
+          <Text>Bluetooth: {this.bleStateText()}</Text>
+          <View style={{ width: 10 }} />
           <Icon.Button
             style={styles.iconButton}
             name="redo"
-            onPress={() => {}}
+            onPress={this.connectBle}
           />
         </View>
         <View style={{ height: 20 }} />
         <View>
           <Text>
-            Pedal: {this.state.deviceState}
-            {this.state.pressState ? (", " + this.state.pressState) : ""}
+            Pedal: {this.pedalStateText()}
+            {this.state.pressedState ? ", " : " "}
+            {this.pedalPressedStateText()}
           </Text>
         </View>
       </View>
     )
+  }
+
+  bleStateText = () => {
+    switch (this.state.bleState) {
+      case "scanning":
+        return "procurando..."
+      case "idle":
+        return "ligado"
+      default:
+        return "erro"
+    }
+  }
+
+  pedalStateText = () => {
+    switch (this.state.deviceState) {
+      case "connected":
+        return "Conectado"
+      case "disconnected":
+        return "Desconectado"
+      default:
+        return "erro"
+    }
+  }
+
+  pedalPressedStateText = () => {
+    switch (this.state.pressedState) {
+      case "pressed":
+        return "pressionado"
+      case "released":
+        return "solto"
+      default:
+        return ""
+    }
   }
 }
 
