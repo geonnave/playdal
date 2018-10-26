@@ -79,9 +79,9 @@ project.ext.react = [
 apply from: "../../node_modules/react-native/react.gradle"
 
 // react native vector icons
-// project.ext.vectoricons = [
-//     iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf', 'FontAwesome.ttf' ] // Name of the font files you want to copy
-// ]
+project.ext.vectoricons = [
+    iconFontNames: [ 'MaterialIcons.ttf', 'FontAwesome5.ttf' ] // Name of the font files you want to copy
+]
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 /**
@@ -107,8 +107,8 @@ android {
         applicationId "com.galaxia.playdal"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "4.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

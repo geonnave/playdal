@@ -22,7 +22,7 @@ class DevicesView extends Component {
       bleState: "disconnected",
       pressedState: undefined,
       permissionIsGranted: PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
       )
     }
   }
@@ -47,7 +47,7 @@ class DevicesView extends Component {
   checkPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
         {
           title: "Playdal",
           message:
