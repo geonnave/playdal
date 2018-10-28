@@ -21,8 +21,23 @@ class SpotifyView extends Component {
     inputPlaylistURL: "",
     activePlaylistURL: "",
     spotifyInitialized: undefined,
-    highVolume: 0.85,
-    lowVolume: 0.35
+    highVolume: 0.9,
+    lowVolume: 0.36,
+    volumeDecrescendo: [
+      0.9,
+      0.88,
+      0.85,
+      0.81,
+      0.76,
+      0.7,
+      0.63,
+      0.55,
+      0.46,
+      0.36
+    ],
+    volumeDecrescendoInterval: 140,
+    volumeCrescendoInterval: 30,
+    volumeState: "normal"
   }
 
   URLtoURI = playlistURL => {
@@ -75,15 +90,37 @@ class SpotifyView extends Component {
     Spotify.setPlaying(shouldPlay)
   }
 
+  sleep = ms => {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
+  volumeHighHandler = async () => {
+    for (var volume of [...this.state.volumeDecrescendo].reverse()) {
+      await this.sleep(this.state.volumeCrescendoInterval)
+      console.log(`adjust volume to ${volume}`)
+      NativeModules.ReactNativeVolumeController.change(volume)
+    }
+    console.log(`adjusted volume to high`)
+  }
+
+  volumeLowHandler = async () => {
+    for (var volume of this.state.volumeDecrescendo) {
+      await this.sleep(this.state.volumeDecrescendoInterval)
+      console.log(`adjust volume to ${volume}`)
+      NativeModules.ReactNativeVolumeController.change(volume)
+    }
+    console.log(`adjusted volume to low`)
+  }
+
   pedalPressed = () => {
-    NativeModules.ReactNativeVolumeController.change(this.state.highVolume)
+    this.volumeHighHandler()
     if (!Spotify.getPlaybackState().playing) {
       this.playPlaylist()
     }
   }
 
   pedalReleased = () => {
-    NativeModules.ReactNativeVolumeController.change(this.state.lowVolume)
+    this.volumeLowHandler()
   }
 
   clearPlaylist = () => {

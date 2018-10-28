@@ -156,7 +156,10 @@ class DevicesView extends Component {
     await this.checkPermission()
     this.manager.state().then(state => {
       if (state != "PoweredOn") {
-        Alert.alert("Bluetooth desligado", "Ei, parece que o Bluetooth está desligado! Não esqueça de ligá-lo para podermos conectar com o pedal ;)")
+        Alert.alert(
+          "Bluetooth desligado",
+          "Ei, parece que o Bluetooth está desligado! Não esqueça de ligá-lo para podermos conectar com o pedal ;)"
+        )
       }
     })
     if (this.state.permissionIsGranted && !this.state.device) {
