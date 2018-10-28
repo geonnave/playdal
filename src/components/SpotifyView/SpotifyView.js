@@ -157,7 +157,7 @@ class SpotifyView extends Component {
       <View style={styles.container}>
         <View style={styles.horizontalContainer}>
           <Text>Spotify: </Text>
-          <Text>{this.connectedAndLoggedInText()}  </Text>
+          <Text>{this.connectedAndLoggedInText()} </Text>
           <TouchableOpacity onPress={this.spotifyLogin}>
             <Icon name="redo" size={18} style={{ color: "#0D1134" }} />
           </TouchableOpacity>
@@ -180,7 +180,11 @@ class SpotifyView extends Component {
             }}
           >
             <TouchableOpacity onPress={this.clearPlaylist}>
-              <FeatherIcon name="delete" size={32} style={{ color: "#0D1134" }} />
+              <FeatherIcon
+                name="delete"
+                size={24}
+                style={{ color: "#0D1134" }}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -189,13 +193,9 @@ class SpotifyView extends Component {
             onPress={this.playPlaylist}
             style={{ marginLeft: 10, marginRight: 10 }}
           >
-            <Text style={{ fontSize: 18, color: "#0D1134" }}>Play</Text>
+            <Text style={{ fontSize: 32, color: "#0D1134" }}>Play</Text>
           </TouchableOpacity>
         </View>
-
-        {/* <TouchableOpacity onPress={this.playPlaylist}>
-          <Icon name="play" size={28}/>
-        </TouchableOpacity> */}
       </View>
     )
   }
@@ -211,10 +211,9 @@ class SpotifyView extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    height: "75%",
     alignItems: "center",
-    marginTop: 20
+    marginTop: 20,
+    marginBottom: 20
   },
   horizontalContainer: {
     flexDirection: "row",

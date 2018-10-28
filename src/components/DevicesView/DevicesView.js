@@ -194,9 +194,9 @@ class DevicesView extends Component {
   pedalStateText = () => {
     switch (this.state.deviceState) {
       case "connected":
-        return "Conectado"
+        return "conectado"
       case "disconnected":
-        return "Desconectado"
+        return "desconectado"
       default:
         return "erro"
     }
@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    marginTop: 20
   },
   horizontalContainer: {
     flexDirection: "row",
