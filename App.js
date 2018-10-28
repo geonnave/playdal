@@ -26,6 +26,7 @@ export default class App extends Component<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    // backgroundColor: "#A57DB9"
   }
 })

@@ -7,10 +7,12 @@ import {
   Text,
   ToastAndroid,
   NativeModules,
-  Slider
+  Slider,
+  TouchableOpacity
 } from "react-native"
 import Spotify from "rn-spotify-sdk"
 import Icon from "react-native-vector-icons/FontAwesome5"
+import FeatherIcon from "react-native-vector-icons/Feather"
 import { SliderVolumeController } from "react-native-volume-controller"
 
 class SpotifyView extends Component {
@@ -122,7 +124,11 @@ class SpotifyView extends Component {
     Spotify.login()
       .then(loggedIn => {
         if (loggedIn) {
-          this.setState({ ...this.state, spotifyLoggedIn: true })
+          this.setState({
+            ...this.state,
+            spotifyInitialized: true,
+            spotifyLoggedIn: true
+          })
           console.log(`loggedIn = ${loggedIn}`)
         }
       })
@@ -150,35 +156,46 @@ class SpotifyView extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.horizontalContainer}>
-          <Text>Spotify </Text>
-          <Text>{this.connectedAndLoggedInText()} </Text>
-          <Icon.Button
-            style={styles.iconButton}
-            name="redo"
-            onPress={this.spotifyLogin}
-          />
+          <Text>Spotify: </Text>
+          <Text>{this.connectedAndLoggedInText()}  </Text>
+          <TouchableOpacity onPress={this.spotifyLogin}>
+            <Icon name="redo" size={18} style={{ color: "#0D1134" }} />
+          </TouchableOpacity>
         </View>
-        <TextInput
-          style={styles.playlistInput}
-          value={this.state.inputPlaylistURL}
-          placeholder="Cole aqui a playlist"
-          multiline={true}
-          onChangeText={this.setPlaylist}
-        />
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1, width: "80%", justifyContent: "center" }}>
+            <TextInput
+              style={styles.playlistInput}
+              value={this.state.inputPlaylistURL}
+              placeholder="Cole aqui a playlist"
+              multiline={true}
+              onChangeText={this.setPlaylist}
+            />
+          </View>
+          <View
+            style={{
+              width: "20%",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <TouchableOpacity onPress={this.clearPlaylist}>
+              <FeatherIcon name="delete" size={32} style={{ color: "#0D1134" }} />
+            </TouchableOpacity>
+          </View>
+        </View>
         <View style={styles.horizontalContainer}>
-          <Button
-            style={styles.button}
-            title="Limpar"
-            color="grey"
-            onPress={this.clearPlaylist}
-          />
-          <View style={{ width: 10 }} />
-          <Button
-            style={styles.button}
-            title="Play"
+          <TouchableOpacity
             onPress={this.playPlaylist}
-          />
+            style={{ marginLeft: 10, marginRight: 10 }}
+          >
+            <Text style={{ fontSize: 18, color: "#0D1134" }}>Play</Text>
+          </TouchableOpacity>
         </View>
+
+        {/* <TouchableOpacity onPress={this.playPlaylist}>
+          <Icon name="play" size={28}/>
+        </TouchableOpacity> */}
       </View>
     )
   }
@@ -195,9 +212,8 @@ class SpotifyView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: "65%",
+    height: "75%",
     alignItems: "center",
-    backgroundColor: "#F5FCFF",
     marginTop: 20
   },
   horizontalContainer: {
@@ -209,7 +225,8 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   iconButton: {
-    paddingRight: 0
+    paddingRight: 0,
+    backgroundColor: "#A57DB9"
   },
   playlistInput: {
     margin: 10

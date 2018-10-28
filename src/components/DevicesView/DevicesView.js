@@ -6,7 +6,8 @@ import {
   Button,
   Text,
   ToastAndroid,
-  PermissionsAndroid
+  PermissionsAndroid,
+  TouchableOpacity
 } from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome5"
 
@@ -163,11 +164,9 @@ class DevicesView extends Component {
         <View style={styles.horizontalContainer}>
           <Text>Bluetooth: {this.bleStateText()}</Text>
           <View style={{ width: 10 }} />
-          <Icon.Button
-            style={styles.iconButton}
-            name="redo"
-            onPress={this.connectBle}
-          />
+          <TouchableOpacity onPress={this.connectBle}>
+            <Icon name="redo" size={18} style={{ color: "#0D1134" }} />
+          </TouchableOpacity>
         </View>
         <View style={{ height: 20 }} />
         <View>
@@ -219,7 +218,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#F5FCFF"
   },
   horizontalContainer: {
     flexDirection: "row",
