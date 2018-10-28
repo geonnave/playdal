@@ -7,7 +7,8 @@ import {
   Text,
   ToastAndroid,
   PermissionsAndroid,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome5"
 
@@ -20,7 +21,7 @@ class DevicesView extends Component {
     this.state = {
       device: undefined,
       deviceState: "disconnected",
-      bleState: "disconnected",
+      bleState: "unknown",
       pressedState: undefined,
       permissionIsGranted: PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
@@ -153,6 +154,11 @@ class DevicesView extends Component {
 
   async componentDidMount() {
     await this.checkPermission()
+    this.manager.state().then(state => {
+      if (state != "PoweredOn") {
+        Alert.alert("Bluetooth desligado", "Ei, parece que o Bluetooth está desligado! Não esqueça de ligá-lo para podermos conectar com o pedal ;)")
+      }
+    })
     if (this.state.permissionIsGranted && !this.state.device) {
       this.connectBle()
     }

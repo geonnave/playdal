@@ -8,7 +8,8 @@ import {
   ToastAndroid,
   NativeModules,
   Slider,
-  TouchableOpacity
+  TouchableOpacity,
+  Keyboard
 } from "react-native"
 import Spotify from "rn-spotify-sdk"
 import Icon from "react-native-vector-icons/FontAwesome5"
@@ -42,6 +43,11 @@ class SpotifyView extends Component {
     /https:\/\/open.spotify.com\/user\/.*\/playlist\/[a-zA-Z0-9]+/.test(
       playlistURL
     )
+
+  playPlaylistAndDismissKeyboard = () => {
+    Keyboard.dismiss()
+    this.playPlaylist()
+  }
 
   playPlaylist = () => {
     if (!this.validatePlaylist(this.state.inputPlaylistURL)) {
@@ -157,7 +163,8 @@ class SpotifyView extends Component {
       <View style={styles.container}>
         <View style={styles.horizontalContainer}>
           <Text>Spotify: </Text>
-          <Text>{this.connectedAndLoggedInText()} </Text>
+          <Text>{this.connectedAndLoggedInText()}</Text>
+          <View style={{ width: 10 }} />
           <TouchableOpacity onPress={this.spotifyLogin}>
             <Icon name="redo" size={18} style={{ color: "#0D1134" }} />
           </TouchableOpacity>
@@ -170,6 +177,7 @@ class SpotifyView extends Component {
               placeholder="Cole aqui a playlist"
               multiline={true}
               onChangeText={this.setPlaylist}
+              onSubmitEditing={Keyboard.dismiss}
             />
           </View>
           <View
@@ -190,7 +198,7 @@ class SpotifyView extends Component {
         </View>
         <View style={styles.horizontalContainer}>
           <TouchableOpacity
-            onPress={this.playPlaylist}
+            onPress={this.playPlaylistAndDismissKeyboard}
             style={{ marginLeft: 10, marginRight: 10 }}
           >
             <Text style={{ fontSize: 32, color: "#0D1134" }}>Play</Text>

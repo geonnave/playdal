@@ -1,5 +1,12 @@
 import React, { Component } from "react"
-import { StyleSheet, View, StatusBar, ToolbarAndroid } from "react-native"
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  ToolbarAndroid,
+  TouchableOpacity,
+  Image
+} from "react-native"
 
 import SpotifyView from "./src/components/SpotifyView/SpotifyView"
 import DevicesView from "./src/components/DevicesView/DevicesView"
@@ -14,26 +21,32 @@ export default class App extends Component<Props> {
     }
   }
 
+  fakePressed = () => this.spotifyView.pedalPressed()
+  fakeReleased = () => this.spotifyView.pedalReleased()
+
   render() {
     return (
       <View style={styles.container}>
         <ToolbarAndroid
-          title="PLAYDAL"
+          title="Playdal"
           titleColor="#fff"
           style={{ height: 56, backgroundColor: "#0D1134" }}
-          logo={require("./icon_white.png")}
         />
         <StatusBar backgroundColor="#0D1134" barStyle="light-content" />
         <SpotifyView onRef={ref => (this.spotifyView = ref)} />
-        <View
-          style={{
-            borderBottomColor: "black",
-            borderBottomWidth: 1,
-            marginLeft: "2%",
-            marginRight: "2%"
-          }}
-        />
+        <View style={styles.separator} />
         <DevicesView changePressedState={this.changePressedState} />
+        <View style={{ alignItems: "center" }}>
+          <TouchableOpacity
+            onPressIn={this.fakePressed}
+            onPressOut={this.fakeReleased}
+          >
+            <Image
+              source={require("./icon.png")}
+              style={{ width: 48, height: 48 }}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -43,5 +56,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#A57DB9"
+  },
+  separator: {
+    borderBottomColor: "black",
+    borderBottomWidth: 1,
+    marginLeft: "2%",
+    marginRight: "2%"
   }
 })
