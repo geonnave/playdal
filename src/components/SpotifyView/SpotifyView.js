@@ -23,16 +23,25 @@ class SpotifyView extends Component {
     spotifyInitialized: undefined,
     highVolume: 0.9,
     lowVolume: 0.36,
+    // volumeDecrescendo: [
+    //   0.9,
+    //   0.88,
+    //   0.85,
+    //   0.81,
+    //   0.76,
+    //   0.7,
+    //   0.63,
+    //   0.55,
+    //   0.46,
+    //   0.36
+    // ],
     volumeDecrescendo: [
       0.9,
-      0.88,
-      0.85,
-      0.81,
-      0.76,
-      0.7,
-      0.63,
-      0.55,
-      0.46,
+      0.86,
+      0.8,
+      0.72,
+      0.62,
+      0.5,
       0.36
     ],
     volumeDecrescendoInterval: 140,
@@ -99,6 +108,7 @@ class SpotifyView extends Component {
       await this.sleep(this.state.volumeCrescendoInterval)
       console.log(`adjust volume to ${volume}`)
       NativeModules.ReactNativeVolumeController.change(volume)
+      NativeModules.ReactNativeVolumeController.update()
     }
     console.log(`adjusted volume to high`)
   }
@@ -108,6 +118,7 @@ class SpotifyView extends Component {
       await this.sleep(this.state.volumeDecrescendoInterval)
       console.log(`adjust volume to ${volume}`)
       NativeModules.ReactNativeVolumeController.change(volume)
+      NativeModules.ReactNativeVolumeController.update()
     }
     console.log(`adjusted volume to low`)
   }

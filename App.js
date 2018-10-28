@@ -42,7 +42,7 @@ export default class App extends Component<Props> {
             onPressOut={this.fakeReleased}
           >
             <Image
-              source={require("./icon.png")}
+              source={require("./icon_back_white.png")}
               style={{ width: 48, height: 48 }}
             />
           </TouchableOpacity>
