@@ -35,15 +35,7 @@ class SpotifyView extends Component {
     //   0.46,
     //   0.36
     // ],
-    volumeDecrescendo: [
-      0.9,
-      0.86,
-      0.8,
-      0.72,
-      0.62,
-      0.5,
-      0.36
-    ],
+    volumeDecrescendo: [0.9, 0.86, 0.8, 0.72, 0.62, 0.5, 0.36],
     volumeDecrescendoInterval: 140,
     volumeCrescendoInterval: 30,
     volumeState: "normal"
@@ -104,22 +96,28 @@ class SpotifyView extends Component {
   }
 
   volumeHighHandler = async () => {
-    for (var volume of [...this.state.volumeDecrescendo].reverse()) {
-      await this.sleep(this.state.volumeCrescendoInterval)
-      console.log(`adjust volume to ${volume}`)
-      NativeModules.ReactNativeVolumeController.change(volume)
-      NativeModules.ReactNativeVolumeController.update()
-    }
+    NativeModules.ReactNativeVolumeController.change(this.state.highVolume)
+    // ToastAndroid.show("adjusted volume to high", ToastAndroid.SHORT)
+    // code below doesn't work when app is on background
+    // for (var volume of [...this.state.volumeDecrescendo].reverse()) {
+    //   await this.sleep(this.state.volumeCrescendoInterval)
+    //   console.log(`adjust volume to ${volume}`)
+    //   NativeModules.ReactNativeVolumeController.change(volume)
+    //   NativeModules.ReactNativeVolumeController.update()
+    // }
     console.log(`adjusted volume to high`)
   }
 
   volumeLowHandler = async () => {
-    for (var volume of this.state.volumeDecrescendo) {
-      await this.sleep(this.state.volumeDecrescendoInterval)
-      console.log(`adjust volume to ${volume}`)
-      NativeModules.ReactNativeVolumeController.change(volume)
-      NativeModules.ReactNativeVolumeController.update()
-    }
+    NativeModules.ReactNativeVolumeController.change(this.state.lowVolume)
+    // ToastAndroid.show("adjusted volume to low", ToastAndroid.SHORT)
+    // code below doesn't work when app is on background
+    // for (var volume of this.state.volumeDecrescendo) {
+    //   await this.sleep(this.state.volumeDecrescendoInterval)
+    //   console.log(`adjust volume to ${volume}`)
+    //   NativeModules.ReactNativeVolumeController.change(volume)
+    //   NativeModules.ReactNativeVolumeController.update()
+    // }
     console.log(`adjusted volume to low`)
   }
 

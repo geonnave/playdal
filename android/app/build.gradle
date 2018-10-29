@@ -107,8 +107,8 @@ android {
         applicationId "com.galaxia.playdal"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
-        versionName "4.0"
+        versionCode 5
+        versionName "4.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
